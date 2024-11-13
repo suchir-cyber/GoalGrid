@@ -1,14 +1,3 @@
-/* Task Grid Layout - Spread across the screen */
-.task-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Cards should be responsive but wider */
-    gap: 20px;  /* Adds space between the task cards */
-    padding: 20px;
-    justify-items: stretch; /* This will ensure the cards take up the full width */
-    align-items: start;
-    width: 100%; /* Ensure the grid takes up the full available width */
-}
-
 /* Task Card Styling - Make the card more horizontal */
 .task-card {
     background-color: #f9f9f9;
@@ -88,13 +77,13 @@
     color: #007BFF;
 }
 
-/* Priority Styling */
+/* Priority Styling (used for the priority badge inside the card) */
 .task-card .priority {
     font-size: 1rem;
     color: #FFF;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #28a745; /* Green for High priority */
+    background-color: #28a745; /* Default green for priority, you can adjust */
     font-weight: bold;
 }
 

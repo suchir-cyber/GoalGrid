@@ -4,6 +4,8 @@ import './components/homePage.css'
 import Navbar from './components/navbar';
 import CreateTask from './components/createTask';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import TaskCard from './components/taskCard';
+import './components/taskGrid.css';
 
 function App() {
   const [tasks, setTasks] = useState([]); // State to hold tasks
@@ -27,28 +29,42 @@ function App() {
 }
 
 function HomePage({ tasks }) {
-  return (
-      <div style={{ padding: '20px' }}>
-          <h2>Task List</h2>
-          <div className="task-grid">
-              {tasks.length > 0 ? (
-                  tasks.map((task, index) => (
-                      <div key={index} className="task-card">
-                          <h3>{task.title}</h3>
-                          <p><strong>Description:</strong> {task.description}</p>
-                          <p><strong>Due Date:</strong> {task.dueDate}</p>
-                          <p><strong>Priority:</strong> {task.priority}</p>
-                      </div>
-                  ))
-              ) : (
-                  <p>No tasks available.</p>
-              )}
-          </div>
-      </div>
-  );
+  const now = new Date();
+
+    const upcomingTasks = tasks.filter(task => new Date(task.dueDate) > now && !task.completed);
+    const overdueTasks = tasks.filter(task => new Date(task.dueDate) < now && !task.completed);
+    const completedTasks = tasks.filter(task => task.completed);
+
+    return (
+        <div className="home-page">
+            <div className="task-column">
+                <h2>Upcoming Tasks</h2>
+                {upcomingTasks.length > 0 ? (
+                    upcomingTasks.map(task => <TaskCard key={task.id} task={task} />)
+                ) : (
+                    <p>No upcoming tasks.</p>
+                )}
+            </div>
+            <div className="task-column">
+                <h2>Overdue Tasks</h2>
+                {overdueTasks.length > 0 ? (
+                    overdueTasks.map(task => <TaskCard key={task.id} task={task} />)
+                ) : (
+                    <p>No overdue tasks.</p>
+                )}
+            </div>
+            <div className="task-column">
+                <h2>Completed Tasks</h2>
+                {completedTasks.length > 0 ? (
+                    completedTasks.map(task => <TaskCard key={task.id} task={task} />)
+                ) : (
+                    <p>No completed tasks.</p>
+                )}
+            </div>
+        </div>
+    );
 }
 
 
 export default App;
-
 
