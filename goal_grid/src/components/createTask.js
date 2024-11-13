@@ -1,25 +1,34 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './createTask.css';
 
-function CreateTask() {
+function CreateTask({ addTask }) {
     const [task, setTask] = useState({
         title: '',
         description: '',
         dueDate: '',
         priority: 'Low',
     });
+    const navigate = useNavigate();
 
+    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTask({ ...task, [name]: value });
     };
 
+    // Handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault();
-        // Add logic to save the task (e.g., API call or state update)
-        console.log('Task Created:', task);
-        // Reset form after submission
+        e.preventDefault(); // Prevent page reload
+
+        // Add the new task to the task list in App.js
+        addTask(task);
+
+        // Reset the form fields
         setTask({ title: '', description: '', dueDate: '', priority: 'Low' });
+
+        // Navigate back to the homepage ("/")
+        navigate('/');
     };
 
     return (
@@ -37,7 +46,6 @@ function CreateTask() {
                         placeholder="Enter task title"
                     />
                 </label>
-
                 <label>
                     Description
                     <textarea
@@ -48,7 +56,6 @@ function CreateTask() {
                         rows="4"
                     />
                 </label>
-
                 <label>
                     Due Date
                     <input
@@ -59,7 +66,6 @@ function CreateTask() {
                         required
                     />
                 </label>
-
                 <label>
                     Priority Level
                     <select
@@ -72,7 +78,6 @@ function CreateTask() {
                         <option value="High">High</option>
                     </select>
                 </label>
-
                 <button type="submit" className="create-button">Create Task</button>
             </form>
         </div>
