@@ -14,10 +14,15 @@ function TaskCard({ task }) {
             {/* Task Details */}
             <h3>{task.title}</h3>
             <p className="description">{task.description}</p>
-            <p className="due-date">Due Date: {task.dueDate}</p>
+            <p className="due-date-time">
+                <span className="due-date-label">Due Date:</span> {task.dueDate} 
+                <span className="due-time">at {task.dueTime}</span>
+            </p>
             <p className="priority">Priority: {task.priority}</p>
         </div>
     );
 }
 
 export default TaskCard;
+
+

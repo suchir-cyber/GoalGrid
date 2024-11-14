@@ -70,12 +70,7 @@
     color: #333;
 }
 
-/* Due Date Styling */
-.task-card .due-date {
-    font-size: 1rem;
-    font-weight: bold;
-    color: #007BFF;
-}
+
 
 /* Priority Styling (used for the priority badge inside the card) */
 .task-card .priority {
@@ -103,5 +98,40 @@
 
     .task-card {
         max-width: 100%; /* Full width for small screens */
+    }
+}
+
+
+/* taskCard.css */
+
+/* Task Due Date & Time Styling */
+.due-date-time {
+    font-size: 1rem;
+    color: #555;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.due-date-label {
+    color: #007BFF;
+    font-weight: 600;
+    margin-right: 5px;
+}
+
+.due-time {
+    color: #FF6347;
+    font-weight: 600;
+    margin-left: 5px;
+}
+
+/* Responsive Design for Smaller Screens */
+@media (max-width: 600px) {
+    .due-date-time {
+        font-size: 0.9rem;
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

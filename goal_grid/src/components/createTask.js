@@ -7,6 +7,7 @@ function CreateTask({ addTask }) {
         title: '',
         description: '',
         dueDate: '',
+        dueTime: '',  // Add dueTime to initial state
         priority: 'Low',
     });
     const navigate = useNavigate();
@@ -25,7 +26,7 @@ function CreateTask({ addTask }) {
         addTask(task);
 
         // Reset the form fields
-        setTask({ title: '', description: '', dueDate: '', priority: 'Low' });
+        setTask({ title: '', description: '', dueDate: '', dueTime: '', priority: 'Low' });
 
         // Navigate back to the homepage ("/")
         navigate('/');
@@ -67,6 +68,16 @@ function CreateTask({ addTask }) {
                     />
                 </label>
                 <label>
+                    Due Time
+                    <input
+                        type="time"
+                        name="dueTime"
+                        value={task.dueTime}
+                        onChange={handleChange}
+                        required
+                    />
+                </label>
+                <label>
                     Priority Level
                     <select
                         name="priority"
@@ -85,4 +96,3 @@ function CreateTask({ addTask }) {
 }
 
 export default CreateTask;
-

@@ -1,70 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import './components/homePage.css'
+import './components/homePage.css';
 import Navbar from './components/navbar';
 import CreateTask from './components/createTask';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TaskCard from './components/taskCard';
+import TaskTab from './components/taskTab.js'; // Assuming TaskTab component is created for tabs
 import './components/taskGrid.css';
 
 function App() {
-  const [tasks, setTasks] = useState([]); // State to hold tasks
+  const [tasks, setTasks] = useState([]);
+  const [selectedTab, setSelectedTab] = useState('upcoming');
 
   // Function to add task to the state
   const addTask = (newTask) => {
-      setTasks((prevTasks) => [...prevTasks, newTask]); // Add new task to the tasks array
+    setTasks((prevTasks) => [...prevTasks, newTask]);
   };
 
+  // Function to update the tab based on the current time
+  const updateTaskStatus = () => {
+    const now = new Date();
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        const dueDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
+        if (!task.completed && dueDateTime < now) {
+          return { ...task, status: 'overdue' }; // Mark task as overdue
+        }
+        return task;
+      })
+    );
+  };
+
+  useEffect(() => {
+    // Initial task update on mount
+    updateTaskStatus();
+
+    // Calculate the time until the next minute
+    const now = new Date();
+    const msUntilNextMinute = (60 - now.getSeconds()) * 1000;
+
+    // Set a timeout to align with the start of the next minute
+    const initialTimeout = setTimeout(() => {
+      // Then, set an interval to update every minute
+      updateTaskStatus(); // Update immediately at the next minute
+      const intervalId = setInterval(updateTaskStatus, 60000);
+
+      // Clear the interval when the component unmounts
+      return () => clearInterval(intervalId);
+    }, msUntilNextMinute);
+
+    // Clear the initial timeout if the component unmounts
+    return () => clearTimeout(initialTimeout);
+  }, []);
+
   return (
-      <Router>
-          <Navbar />
-          <Routes>
-              {/* Home page route, where the task list will be displayed */}
-              <Route path="/" element={<HomePage tasks={tasks} />} />
-              {/* Route to CreateTask page, passing addTask function as a prop */}
-              <Route path="/create-task" element={<CreateTask addTask={addTask} />} />
-          </Routes>
-      </Router>
+    <Router>
+      <Navbar />
+      <TaskTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
+      <Routes>
+        <Route
+          path="/"
+          element={<HomePage tasks={tasks} selectedTab={selectedTab} />}
+        />
+        <Route path="/create-task" element={<CreateTask addTask={addTask} />} />
+      </Routes>
+    </Router>
   );
 }
 
-function HomePage({ tasks }) {
+function HomePage({ tasks, selectedTab }) {
   const now = new Date();
 
-    const upcomingTasks = tasks.filter(task => new Date(task.dueDate) > now && !task.completed);
-    const overdueTasks = tasks.filter(task => new Date(task.dueDate) < now && !task.completed);
-    const completedTasks = tasks.filter(task => task.completed);
+  const getTaskDateTime = (task) => {
+    const date = new Date(task.dueDate);
+    const [hours, minutes] = task.dueTime.split(':');
+    date.setHours(hours, minutes);
+    return date;
+  };
 
-    return (
-        <div className="home-page">
-            <div className="task-column">
-                <h2>Upcoming Tasks</h2>
-                {upcomingTasks.length > 0 ? (
-                    upcomingTasks.map(task => <TaskCard key={task.id} task={task} />)
-                ) : (
-                    <p>No upcoming tasks.</p>
-                )}
-            </div>
-            <div className="task-column">
-                <h2>Overdue Tasks</h2>
-                {overdueTasks.length > 0 ? (
-                    overdueTasks.map(task => <TaskCard key={task.id} task={task} />)
-                ) : (
-                    <p>No overdue tasks.</p>
-                )}
-            </div>
-            <div className="task-column">
-                <h2>Completed Tasks</h2>
-                {completedTasks.length > 0 ? (
-                    completedTasks.map(task => <TaskCard key={task.id} task={task} />)
-                ) : (
-                    <p>No completed tasks.</p>
-                )}
-            </div>
-        </div>
-    );
+  const filteredTasks = tasks.filter(task => {
+    const taskDateTime = getTaskDateTime(task);
+
+    if (selectedTab === 'upcoming') return taskDateTime > now && !task.completed;
+    if (selectedTab === 'overdue') return taskDateTime < now && !task.completed;
+    if (selectedTab === 'completed') return task.completed;
+    return false;
+  });
+
+  return (
+    <div className="task-grid">
+      {filteredTasks.length > 0 ? (
+        filteredTasks.map((task) => <TaskCard key={task.id} task={task} />)
+      ) : (
+        <p>No tasks available.</p>
+      )}
+    </div>
+  );
 }
 
-
 export default App;
-
