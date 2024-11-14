@@ -8,10 +8,12 @@ function Navbar({ onFilterSelect }) {
     return (
         <nav className="navbar">
             <div className="navbar-brand">MyApp</div>
-            <Link to="/create-task">
-                <button className="navbar-button">New Task</button>
-            </Link>
-            <Dropdown onSelect={onFilterSelect} /> {/* Add the Dropdown here */}
+            <div className="navbar-actions">
+                <Link to="/create-task">
+                    <button className="navbar-button">New Task</button>
+                </Link>
+                <Dropdown onSelect={onFilterSelect} /> {/* Add the Dropdown here */}
+            </div>
         </nav>
     );
 }

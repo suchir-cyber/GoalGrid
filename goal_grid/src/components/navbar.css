@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     align-items: center;
-    padding: 10px 20px;
+    padding: 10px 40px; /* Padding to move navbar content from edges */
     background-color: #333;
     color: white;
 }
@@ -12,19 +12,35 @@
     margin-right: auto;
 }
 
-.navbar-button, .filter-button {
+/* Wrap New Task button and filter in a container with spacing */
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between New Task button and filter dropdown */
+}
+
+.navbar-button {
     padding: 8px 16px;
     font-size: 16px;
     border: none;
     color: white;
     background-color: #007bff;
     border-radius: 4px;
-    margin-left: 10px;
     cursor: pointer;
 }
 
 .filter-container {
     position: relative;
+}
+
+.filter-button {
+    padding: 8px 16px;
+    font-size: 16px;
+    border: none;
+    color: white;
+    background-color: #007bff;
+    border-radius: 4px;
+    cursor: pointer;
 }
 
 .filter-dropdown {
@@ -64,4 +80,3 @@
 .filter-option:hover .filter-submenu {
     display: block;
 }
-
