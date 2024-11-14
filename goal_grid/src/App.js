@@ -18,11 +18,19 @@ function App() {
 
   // Function to add task to the state
   const addTask = (newTask) => {
+
     const taskWithId = {
+
         ...newTask,
-        id: tasks.length + 1 // Assuming IDs are sequential based on the current length of the tasks array
+
+        id: tasks.length + 1,
+
+        completed: false, // Add completed property
+
     };
+
     setTasks((prevTasks) => [...prevTasks, taskWithId]);
+
 };
 
   // Function to delete a task
@@ -31,13 +39,18 @@ function App() {
   };
 
   const markAsCompleted = (taskId) => {
-    setTasks(prevTasks =>
-        prevTasks.map(task =>
-            task.id === taskId ? { ...task, status: 'completed' } : task
-        )
-    );
-};
 
+    setTasks(prevTasks =>
+
+        prevTasks.map(task =>
+
+            task.id === taskId ? { ...task, status: 'completed', completed: true } : task
+
+        )
+
+    );
+
+};
   // Function to update a task
   const updateTask = (updatedTask) => {
     setTasks((prevTasks) =>
@@ -49,17 +62,28 @@ function App() {
 
   // Function to update the tab based on the current time
   const updateTaskStatus = () => {
+
     const now = new Date();
+
     setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        const dueDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
-        if (!task.completed && dueDateTime < now) {
-          return { ...task, status: 'overdue' }; // Mark task as overdue
-        }
-        return task;
-      })
+
+        prevTasks.map((task) => {
+
+            const dueDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
+
+            if (task.status !== 'completed' && dueDateTime < now) {
+
+                return { ...task, status: 'overdue' }; // Mark task as overdue
+
+            }
+
+            return task;
+
+        })
+
     );
-  };
+
+};
 
   useEffect(() => {
     // Initial task update on mount
@@ -114,7 +138,8 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<HomePage tasks={filteredTasks} selectedTab={selectedTab} deleteTask={deleteTask} />}
+          element={<HomePage tasks={filteredTasks} 
+          selectedTab={selectedTab} deleteTask={deleteTask} markAsCompleted={markAsCompleted} />}
         />
         <Route path="/create-task" element={<CreateTask addTask={addTask} />} />
         <Route path="/update-task/:taskId" element={<UpdateTask tasks={tasks} updateTask={updateTask} />} />
