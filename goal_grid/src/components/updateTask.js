@@ -19,7 +19,7 @@ function UpdateTask({ tasks, updateTask }) {
     // Find the task to update by ID
     useEffect(() => {
         const taskToUpdate = tasks.find(task => task.id === parseInt(taskId));
-        if (!taskToUpdate) {
+        if (!taskToUpdate) {  
             navigate('/'); // Redirect if task is not found
         } else {
             setTask(taskToUpdate); // Set state if task is found
