@@ -1,5 +1,3 @@
-
-
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import './components/homePage.css';
@@ -10,29 +8,22 @@ import TaskCard from './components/taskCard';
 import TaskTab from './components/taskTab'; // Assuming TaskTab component is created for tabs
 import './components/taskGrid.css';
 import UpdateTask from './components/updateTask';
-import FilterDropdown from './components/filterTag';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState('upcoming');
   const [searchQuery, setSearchQuery] = useState(''); // For search input
+  const [filterOption, setFilterOption] = useState(''); // For filter option
 
   // Function to add task to the state
   const addTask = (newTask) => {
-
     const taskWithId = {
-
-        ...newTask,
-
-        id: tasks.length + 1,
-
-        completed: false, // Add completed property
-
+      ...newTask,
+      id: tasks.length + 1,
+      completed: false, // Add completed property
     };
-
     setTasks((prevTasks) => [...prevTasks, taskWithId]);
-
-};
+  };
 
   // Function to delete a task
   const deleteTask = (taskId) => {
@@ -40,18 +31,13 @@ function App() {
   };
 
   const markAsCompleted = (taskId) => {
-
     setTasks(prevTasks =>
-
-        prevTasks.map(task =>
- 
-            task.id === taskId ? { ...task, status: 'completed', completed: true } : task
-
-        )
-
+      prevTasks.map(task =>
+        task.id === taskId ? { ...task, status: 'completed', completed: true } : task
+      )
     );
+  };
 
-};
   // Function to update a task
   const updateTask = (updatedTask) => {
     setTasks((prevTasks) =>
@@ -63,28 +49,17 @@ function App() {
 
   // Function to update the tab based on the current time
   const updateTaskStatus = () => {
-
     const now = new Date();
-
     setTasks((prevTasks) =>
-
-        prevTasks.map((task) => {
-
-            const dueDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
-
-            if (task.status !== 'completed' && dueDateTime < now) {
-
-                return { ...task, status: 'overdue' }; // Mark task as overdue
-
-            }
-
-            return task;
-
-        })
-
+      prevTasks.map((task) => {
+        const dueDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
+        if (task.status !== 'completed' && dueDateTime < now) {
+          return { ...task, status: 'overdue' }; // Mark task as overdue
+        }
+        return task;
+      })
     );
-
-};
+  };
 
   useEffect(() => {
     // Initial task update on mount
@@ -121,12 +96,36 @@ function App() {
     );
   });
 
+  // Handle filter selection
+  const handleFilterSelect = (option) => {
+    setFilterOption(option);
+  };
+
+  // Sort tasks based on the selected filter option
+  const sortedTasks = () => {
+    let sorted = [...filteredTasks];
+
+    if (filterOption === 'lowToHigh') {
+      sorted.sort((a, b) => a.priority.localeCompare(b.priority));
+    } else if (filterOption === 'highToLow') {
+      sorted.sort((a, b) => b.priority.localeCompare(a.priority));
+    } else if (filterOption === 'high') {
+      sorted = sorted.filter(task => task.priority === 'High');
+    } else if (filterOption === 'medium') {
+      sorted = sorted.filter(task => task.priority === 'Medium');
+    } else if (filterOption === 'low') {
+      sorted = sorted.filter(task => task.priority === 'Low');
+    }
+
+    return sorted};
+
   return (
     <Router>
-      <Navbar />
+      <Navbar onFilterSelect={handleFilterSelect} />
       <TaskTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-    
-       <div className="search-bar">
+      
+      {/* Search Bar */}
+      <div className="search-bar">
         <input
           type="text"
           placeholder="Search tasks..."
@@ -134,12 +133,11 @@ function App() {
           onChange={handleSearchChange}
         />
       </div>
-     
 
       <Routes>
         <Route
           path="/"
-          element={<HomePage tasks={filteredTasks} 
+          element={<HomePage tasks={sortedTasks()} 
           selectedTab={selectedTab} deleteTask={deleteTask} markAsCompleted={markAsCompleted} />}
         />
         <Route path="/create-task" element={<CreateTask addTask={addTask} />} />
@@ -152,60 +150,31 @@ function App() {
 function HomePage({ tasks, selectedTab, deleteTask, markAsCompleted }) {
   const now = new Date();
 
-  const [filteredTasks, setFilteredTasks] = useState(tasks); // State for filtered tasks
-
-
   const getTaskDateTime = (task) => {
-
-      const date = new Date(task.dueDate);
-
-      const [hours, minutes] = task.dueTime.split(':');
-
-      date.setHours(hours, minutes);
-
-      return date;
-
+    const date = new Date(task.dueDate);
+    const [hours, minutes] = task.dueTime.split(':');
+    date.setHours(hours, minutes);
+    return date;
   };
 
+  const filteredTasks = tasks.filter(task => {
+    const taskDateTime = getTaskDateTime(task);
 
-  const filteredByTab = filteredTasks.filter(task => {
-
-      const taskDateTime = getTaskDateTime(task);
-
-
-      if (selectedTab === 'upcoming') return taskDateTime > now && task.status !== 'completed';
-
-      if (selectedTab === 'overdue') return taskDateTime < now && task.status !== 'completed';
-
-      if (selectedTab === 'completed') return task.status === 'completed';
-
-      return false;
-
+    if (selectedTab === 'upcoming') return taskDateTime > now && task.status !== 'completed';
+    if (selectedTab === 'overdue') return taskDateTime < now && task.status !== 'completed';
+    if (selectedTab === 'completed') return task.status === 'completed';
+    return false;
   });
 
-
   return (
-
-      <div className="home-page">
-
-          <div className="filter-container">
-
-              <FilterDropdown tasks={tasks} setFilteredTasks={setFilteredTasks} />
-
-          </div>
-
-          <div className="task-grid">
-
-              {filteredByTab.map(task => (
-
-                  <TaskCard key={task.id} task={task} deleteTask={deleteTask} markAsCompleted={markAsCompleted} />
-
-              ))}
-
-          </div>
-
-      </div>
-
+    <div className="task-grid">
+      {filteredTasks.length > 0 ? (
+        filteredTasks.map((task) => <TaskCard key={task.id} task={task} 
+         deleteTask={deleteTask} markAsCompleted={markAsCompleted} />)
+      ) : (
+        <p>No tasks available.</p>
+      )}
+    </div>
   );
 }
 

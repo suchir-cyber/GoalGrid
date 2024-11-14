@@ -1,32 +1,67 @@
-/* Navbar styling */
 .navbar {
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
+    padding: 10px 20px;
     background-color: #333;
-    color: #fff;
-    font-family: Arial, sans-serif;
+    color: white;
 }
 
-/* Branding (name) styling */
 .navbar-brand {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
+    margin-right: auto;
 }
 
-/* Button styling */
-.navbar-button {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    color: #333;
-    background-color: #fff;
+.navbar-button, .filter-button {
+    padding: 8px 16px;
+    font-size: 16px;
     border: none;
+    color: white;
+    background-color: #007bff;
     border-radius: 4px;
+    margin-left: 10px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.navbar-button:hover {
-    background-color: #ddd;
+.filter-container {
+    position: relative;
 }
+
+.filter-dropdown {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    z-index: 1;
+    color: black;
+}
+
+.filter-option {
+    padding: 10px;
+    cursor: pointer;
+}
+
+.filter-option:hover, .filter-submenu div:hover {
+    background-color: #f0f0f0;
+}
+
+.filter-submenu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 150px;
+    background-color: white;
+    border: 1px solid #ddd;
+    z-index: 2;
+}
+
+.filter-option:hover .filter-submenu {
+    display: block;
+}
+
