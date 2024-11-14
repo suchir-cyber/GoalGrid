@@ -81,3 +81,31 @@
         font-size: 1rem;
     }
 }
+
+
+.task-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.update-button, .delete-button {
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.update-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.delete-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.update-button:hover, .delete-button:hover {
+    opacity: 0.8;
+}

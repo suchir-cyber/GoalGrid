@@ -1,3 +1,4 @@
+// app.js
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import './components/homePage.css';
@@ -5,8 +6,9 @@ import Navbar from './components/navbar';
 import CreateTask from './components/createTask';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TaskCard from './components/taskCard';
-import TaskTab from './components/taskTab.js'; // Assuming TaskTab component is created for tabs
+import TaskTab from './components/taskTab'; // Assuming TaskTab component is created for tabs
 import './components/taskGrid.css';
+import UpdateTask from './components/updateTask';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -15,6 +17,20 @@ function App() {
   // Function to add task to the state
   const addTask = (newTask) => {
     setTasks((prevTasks) => [...prevTasks, newTask]);
+  };
+
+  // Function to delete a task
+  const deleteTask = (taskId) => {
+    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId));
+  };
+
+  // Function to update a task
+  const updateTask = (updatedTask) => {
+    setTasks((prevTasks) =>
+      prevTasks.map(task =>
+        task.id === updatedTask.id ? updatedTask : task
+      )
+    );
   };
 
   // Function to update the tab based on the current time
@@ -60,15 +76,16 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={<HomePage tasks={tasks} selectedTab={selectedTab} />}
+          element={<HomePage tasks={tasks} selectedTab={selectedTab} deleteTask={deleteTask} />}
         />
         <Route path="/create-task" element={<CreateTask addTask={addTask} />} />
+        <Route path="/update-task/:taskId" element={<UpdateTask tasks={tasks} updateTask={updateTask} />} />
       </Routes>
     </Router>
   );
 }
 
-function HomePage({ tasks, selectedTab }) {
+function HomePage({ tasks, selectedTab, deleteTask }) {
   const now = new Date();
 
   const getTaskDateTime = (task) => {
@@ -90,7 +107,7 @@ function HomePage({ tasks, selectedTab }) {
   return (
     <div className="task-grid">
       {filteredTasks.length > 0 ? (
-        filteredTasks.map((task) => <TaskCard key={task.id} task={task} />)
+        filteredTasks.map((task) => <TaskCard key={task.id} task={task} deleteTask={deleteTask} />)
       ) : (
         <p>No tasks available.</p>
       )}
