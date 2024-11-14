@@ -135,12 +135,16 @@ function App() {
 
   // Function to add task to the state
   const addTask = (newTask) => {
-    setTasks((prevTasks) => [...prevTasks, newTask]);
-  };
+    const taskWithId = {
+        ...newTask,
+        id: tasks.length + 1 // Assuming IDs are sequential based on the current length of the tasks array
+    };
+    setTasks((prevTasks) => [...prevTasks, taskWithId]);
+};
 
   // Function to delete a task
   const deleteTask = (taskId) => {
-    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId));
+    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId)); // Filter out the task with the given id
   };
 
   // Function to update a task
