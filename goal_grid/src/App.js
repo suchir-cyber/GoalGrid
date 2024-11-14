@@ -10,6 +10,7 @@ import TaskCard from './components/taskCard';
 import TaskTab from './components/taskTab'; // Assuming TaskTab component is created for tabs
 import './components/taskGrid.css';
 import UpdateTask from './components/updateTask';
+import FilterDropdown from './components/filterTag';
 
 function App() {
   const [tasks, setTasks] = useState([]);
@@ -43,7 +44,7 @@ function App() {
     setTasks(prevTasks =>
 
         prevTasks.map(task =>
-
+ 
             task.id === taskId ? { ...task, status: 'completed', completed: true } : task
 
         )
@@ -124,9 +125,8 @@ function App() {
     <Router>
       <Navbar />
       <TaskTab selectedTab={selectedTab} setSelectedTab={setSelectedTab} />
-      
-      {/* Search Bar */}
-      <div className="search-bar">
+    
+       <div className="search-bar">
         <input
           type="text"
           placeholder="Search tasks..."
@@ -134,6 +134,7 @@ function App() {
           onChange={handleSearchChange}
         />
       </div>
+     
 
       <Routes>
         <Route
@@ -151,31 +152,60 @@ function App() {
 function HomePage({ tasks, selectedTab, deleteTask, markAsCompleted }) {
   const now = new Date();
 
+  const [filteredTasks, setFilteredTasks] = useState(tasks); // State for filtered tasks
+
+
   const getTaskDateTime = (task) => {
-    const date = new Date(task.dueDate);
-    const [hours, minutes] = task.dueTime.split(':');
-    date.setHours(hours, minutes);
-    return date;
+
+      const date = new Date(task.dueDate);
+
+      const [hours, minutes] = task.dueTime.split(':');
+
+      date.setHours(hours, minutes);
+
+      return date;
+
   };
 
-  const filteredTasks = tasks.filter(task => {
-    const taskDateTime = getTaskDateTime(task);
 
-    if (selectedTab === 'upcoming') return taskDateTime > now && task.status !== 'completed';
-    if (selectedTab === 'overdue') return taskDateTime < now && task.status !== 'completed';
-    if (selectedTab === 'completed') return task.status === 'completed';
-    return false;
+  const filteredByTab = filteredTasks.filter(task => {
+
+      const taskDateTime = getTaskDateTime(task);
+
+
+      if (selectedTab === 'upcoming') return taskDateTime > now && task.status !== 'completed';
+
+      if (selectedTab === 'overdue') return taskDateTime < now && task.status !== 'completed';
+
+      if (selectedTab === 'completed') return task.status === 'completed';
+
+      return false;
+
   });
 
+
   return (
-    <div className="task-grid">
-      {filteredTasks.length > 0 ? (
-        filteredTasks.map((task) => <TaskCard key={task.id} task={task} 
-         deleteTask={deleteTask} markAsCompleted={markAsCompleted} />)
-      ) : (
-        <p>No tasks available.</p>
-      )}
-    </div>
+
+      <div className="home-page">
+
+          <div className="filter-container">
+
+              <FilterDropdown tasks={tasks} setFilteredTasks={setFilteredTasks} />
+
+          </div>
+
+          <div className="task-grid">
+
+              {filteredByTab.map(task => (
+
+                  <TaskCard key={task.id} task={task} deleteTask={deleteTask} markAsCompleted={markAsCompleted} />
+
+              ))}
+
+          </div>
+
+      </div>
+
   );
 }
 

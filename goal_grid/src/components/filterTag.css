@@ -1,0 +1,58 @@
+/* src/components/filterDropdown.css */
+.filter-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.filter-button {
+    background-color: #4CAF50; /* Green */
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.filter-button:hover {
+    background-color: #45a049; /* Darker green on hover */
+}
+
+.dropdown-content {
+    display: block;
+    position: absolute;
+    background-color: white;
+    min-width: 200px; /* Increased width for better visibility */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px; /* Rounded corners */
+    margin-top: 5px; /* Spacing between button and dropdown */
+    padding: 10px; /* Padding inside dropdown */
+}
+
+.filter-section {
+    margin-bottom: 10px; /* Spacing between sections */
+}
+
+.filter-section h4 {
+    margin: 0 0 5px 0; /* Margin for section title */
+    font-size: 14px; /* Font size for section title */
+    color: #333; /* Darker color for better readability */
+}
+
+.filter-section button {
+    display: block;
+    background: none;
+    border: none;
+    padding: 8px 10px; /* Padding for buttons */
+    text-align: left;
+    width: 100%; /* Make buttons take full width */
+    cursor: pointer;
+    font-size: 14px; /* Font size for button text */
+    transition: background-color 0.2s; /* Transition for hover effect */
+}
+
+.filter-section button:hover {
+    background-color: #f1f1f1; /* Light gray on hover */
+}
