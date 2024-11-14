@@ -7,28 +7,20 @@ function CreateTask({ addTask }) {
         title: '',
         description: '',
         dueDate: '',
-        dueTime: '',  // Add dueTime to initial state
+        dueTime: '',  
         priority: 'Low',
     });
     const navigate = useNavigate();
 
-    // Handle input changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTask({ ...task, [name]: value });
     };
 
-    // Handle form submission
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent page reload
-
-        // Add the new task to the task list in App.js
+        e.preventDefault(); 
         addTask(task);
-
-        // Reset the form fields
         setTask({ title: '', description: '', dueDate: '', dueTime: '', priority: 'Low' });
-
-        // Navigate back to the homepage ("/")
         navigate('/');
     };
 

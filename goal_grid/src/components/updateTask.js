@@ -4,10 +4,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import './createTask.css';
 
 function UpdateTask({ tasks, updateTask }) {
-    const { taskId } = useParams(); // Get taskId from the URL
+    const { taskId } = useParams(); 
     const navigate = useNavigate();
 
-    // Initialize state with a default value
+ 
     const [task, setTask] = useState({
         title: '',
         description: '',
@@ -16,30 +16,30 @@ function UpdateTask({ tasks, updateTask }) {
         priority: 'Low'
     });
 
-    // Find the task to update by ID
+  
     useEffect(() => {
         const taskToUpdate = tasks.find(task => task.id === parseInt(taskId));
         if (!taskToUpdate) {  
-            navigate('/'); // Redirect if task is not found
+            navigate('/'); 
         } else {
-            setTask(taskToUpdate); // Set state if task is found
+            setTask(taskToUpdate); 
         }
     }, [taskId, tasks, navigate]);
 
-    // Handle input changes
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTask({ ...task, [name]: value });
     };
 
-    // Handle form submission
+ 
     const handleSubmit = (e) => {
-        e.preventDefault(); // Prevent page reload
+        e.preventDefault(); 
 
-        // Update the task
+     
         updateTask(task);
 
-        // Navigate back to the homepage
+       
         navigate('/');
     };
 

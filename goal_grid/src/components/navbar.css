@@ -1,7 +1,7 @@
 .navbar {
     display: flex;
     align-items: center;
-    padding: 10px 40px; /* Padding to move navbar content from edges */
+    padding: 10px 40px; 
     background-color: #333;
     color: white;
 }
@@ -12,11 +12,11 @@
     margin-right: auto;
 }
 
-/* Wrap New Task button and filter in a container with spacing */
+
 .navbar-actions {
     display: flex;
     align-items: center;
-    gap: 20px; /* Space between New Task button and filter dropdown */
+    gap: 20px; 
 }
 
 .navbar-button {
@@ -43,18 +43,27 @@
     cursor: pointer;
 }
 
+
 .filter-dropdown {
     display: flex;
     flex-direction: column;
     position: absolute;
     top: 100%;
-    right: 0;
+    left: 0;
     background-color: white;
     border: 1px solid #ddd;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     min-width: 150px;
+    max-height: 200px; 
+    overflow-y: auto; 
     z-index: 1;
     color: black;
+}
+
+
+.filter-container .filter-dropdown.out-of-view {
+    right: 0;
+    left: auto;
 }
 
 .filter-option {
@@ -62,9 +71,10 @@
     cursor: pointer;
 }
 
-.filter-option:hover, .filter-submenu div:hover {
+.filter-option:hover {
     background-color: #f0f0f0;
 }
+
 
 .filter-submenu {
     display: none;
@@ -79,4 +89,10 @@
 
 .filter-option:hover .filter-submenu {
     display: block;
+}
+
+
+.filter-container .filter-dropdown.right-align {
+    left: auto;
+    right: 0;
 }

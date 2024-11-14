@@ -104,12 +104,10 @@ function App() {
   // Sort tasks based on the selected filter option
   const sortedTasks = () => {
     let sorted = [...filteredTasks];
-
-    if (filterOption === 'lowToHigh') {
-      sorted.sort((a, b) => a.priority.localeCompare(b.priority));
-    } else if (filterOption === 'highToLow') {
-      sorted.sort((a, b) => b.priority.localeCompare(a.priority));
-    } else if (filterOption === 'high') {
+    if (filterOption === 'all') {
+      return sorted;
+    }
+    else if (filterOption === 'high') {
       sorted = sorted.filter(task => task.priority === 'High');
     } else if (filterOption === 'medium') {
       sorted = sorted.filter(task => task.priority === 'Medium');
@@ -172,7 +170,9 @@ function HomePage({ tasks, selectedTab, deleteTask, markAsCompleted }) {
         filteredTasks.map((task) => <TaskCard key={task.id} task={task} 
          deleteTask={deleteTask} markAsCompleted={markAsCompleted} />)
       ) : (
-        <p>No tasks available.</p>
+        <div className="no-tasks-message">
+                    <h1>No Tasks</h1>
+        </div>
       )}
     </div>
   );

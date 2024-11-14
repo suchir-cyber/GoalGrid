@@ -1,15 +1,16 @@
-// goal_grid/src/components/Dropdown.js
 import React, { useState } from 'react';
-import './dropDown.css'; // Create a CSS file for styling
+import './dropDown.css'; 
 
 function Dropdown({ onSelect }) {
     const [isOpen, setIsOpen] = useState(false);
+    const [selectedOption, setSelectedOption] = useState('all'); 
 
     const handleToggle = () => {
         setIsOpen(!isOpen);
     };
 
     const handleSelect = (option) => {
+        setSelectedOption(option); 
         onSelect(option);
         setIsOpen(false);
     };
@@ -21,11 +22,30 @@ function Dropdown({ onSelect }) {
             </button>
             {isOpen && (
                 <div className="dropdown-menu">
-                    <div onClick={() => handleSelect('lowToHigh')}>Low to High</div>
-                    <div onClick={() => handleSelect('highToLow')}>High to Low</div>
-                    <div onClick={() => handleSelect('high')}>High Priority</div>
-                    <div onClick={() => handleSelect('medium')}>Medium Priority</div>
-                    <div onClick={() => handleSelect('low')}>Low Priority</div>
+                    <div 
+                        onClick={() => handleSelect('all')} 
+                        className={selectedOption === 'all' ? 'selected' : ''}
+                    >
+                        All
+                    </div>
+                    <div 
+                        onClick={() => handleSelect('high')} 
+                        className={selectedOption === 'high' ? 'selected' : ''}
+                    >
+                        High Priority
+                    </div>
+                    <div 
+                        onClick={() => handleSelect('medium')} 
+                        className={selectedOption === 'medium' ? 'selected' : ''}
+                    >
+                        Medium Priority
+                    </div>
+                    <div 
+                        onClick={() => handleSelect('low')} 
+                        className={selectedOption === 'low' ? 'selected' : ''}
+                    >
+                        Low Priority
+                    </div>
                 </div>
             )}
         </div>
