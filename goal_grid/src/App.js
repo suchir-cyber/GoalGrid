@@ -5,29 +5,29 @@ import Navbar from './components/navbar';
 import CreateTask from './components/createTask';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import TaskCard from './components/taskCard';
-import TaskTab from './components/taskTab'; // Assuming TaskTab component is created for tabs
+import TaskTab from './components/taskTab'; 
 import './components/taskGrid.css';
 import UpdateTask from './components/updateTask';
 
 function App() {
   const [tasks, setTasks] = useState([]);
   const [selectedTab, setSelectedTab] = useState('upcoming');
-  const [searchQuery, setSearchQuery] = useState(''); // For search input
-  const [filterOption, setFilterOption] = useState(''); // For filter option
+  const [searchQuery, setSearchQuery] = useState(''); 
+  const [filterOption, setFilterOption] = useState(''); 
 
-  // Function to add task to the state
+
   const addTask = (newTask) => {
     const taskWithId = {
       ...newTask,
       id: tasks.length + 1,
-      completed: false, // Add completed property
+      completed: false,
     };
     setTasks((prevTasks) => [...prevTasks, taskWithId]);
   };
 
-  // Function to delete a task
+ 
   const deleteTask = (taskId) => {
-    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId)); // Filter out the task with the given id
+    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId)); 
   };
 
   const markAsCompleted = (taskId) => {
@@ -38,7 +38,7 @@ function App() {
     );
   };
 
-  // Function to update a task
+  
   const updateTask = (updatedTask) => {
     setTasks((prevTasks) =>
       prevTasks.map(task =>
@@ -47,14 +47,14 @@ function App() {
     );
   };
 
-  // Function to update the tab based on the current time
+ 
   const updateTaskStatus = () => {
     const now = new Date();
     setTasks((prevTasks) =>
       prevTasks.map((task) => {
         const dueDateTime = new Date(`${task.dueDate}T${task.dueTime}`);
         if (task.status !== 'completed' && dueDateTime < now) {
-          return { ...task, status: 'overdue' }; // Mark task as overdue
+          return { ...task, status: 'overdue' }; 
         }
         return task;
       })
@@ -62,33 +62,30 @@ function App() {
   };
 
   useEffect(() => {
-    // Initial task update on mount
+
     updateTaskStatus();
 
-    // Calculate the time until the next minute
+
     const now = new Date();
     const msUntilNextMinute = (60 - now.getSeconds()) * 1000;
 
-    // Set a timeout to align with the start of the next minute
     const initialTimeout = setTimeout(() => {
-      // Then, set an interval to update every minute
-      updateTaskStatus(); // Update immediately at the next minute
+
+      updateTaskStatus(); 
       const intervalId = setInterval(updateTaskStatus, 60000);
 
-      // Clear the interval when the component unmounts
       return () => clearInterval(intervalId);
     }, msUntilNextMinute);
 
-    // Clear the initial timeout if the component unmounts
+
     return () => clearTimeout(initialTimeout);
   }, []);
 
-  // Handle search input change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Filter tasks based on the search query
+
   const filteredTasks = tasks.filter((task) => {
     return (
       task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -96,12 +93,12 @@ function App() {
     );
   });
 
-  // Handle filter selection
+
   const handleFilterSelect = (option) => {
     setFilterOption(option);
   };
 
-  // Sort tasks based on the selected filter option
+
   const sortedTasks = () => {
     let sorted = [...filteredTasks];
     if (filterOption === 'all') {

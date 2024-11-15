@@ -8,8 +8,8 @@ function TaskCard({ task, deleteTask, markAsCompleted }) {
     const navigate = useNavigate();
     
 
-    const priorityClass = task.priority === 'high' ? 'priority-high' : 
-                          task.priority === 'medium' ? 'priority-medium' : 
+    const priorityClass = task.priority === 'High' ? 'priority-high' : 
+                          task.priority === 'Medium' ? 'priority-medium' : 
                           'priority-low';
 
    
@@ -39,7 +39,7 @@ function TaskCard({ task, deleteTask, markAsCompleted }) {
                 <span className="due-date-label">Due Date:</span> {task.dueDate} 
                 <span className="due-time"> at {task.dueTime}</span>
             </p>
-            <p className="priority">Priority: {task.priority}</p>
+            <p className={`priority ${priorityClass}`}>Priority: {task.priority}</p>
             
             
             <div className="task-actions">

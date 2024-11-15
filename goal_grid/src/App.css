@@ -54,42 +54,37 @@
 
 
 
-/* src/components/homePage.css */
+
 .home-page {
   display: flex;
-  flex-direction: column; /* Stack filter and tasks vertically */
-  padding: 20px; /* Add some padding around the page */
+  flex-direction: column; 
+  padding: 20px; 
 }
 
 .filter-container {
   display: flex;
-  justify-content: flex-end; /* Align filter button to the right */
-  margin-bottom: 20px; /* Space between filter and tasks */
+  justify-content: flex-end; 
+  margin-bottom: 20px; 
 }
 
 .task-grid {
-  display: grid; /* Use grid layout for tasks */
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive grid */
-  gap: 20px; /* Space between task cards */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px;
 }
 
 .no-tasks-message {
   display: flex;
-  flex-direction: column; /* Stack the heading and paragraph */
-  align-items: center; /* Center horizontally */
-  justify-content: center; /* Center vertically */
-  height: 100vh; /* Full height of the viewport */
-  text-align: center; /* Center text */
-  color: #333; /* Text color */
-  margin: 0; /* Remove default margin */
+  flex-direction: column; 
+  height: 100vh; 
+  text-align: center;
+  color: #333; 
+  margin: 0; 
+  width: 100%;
 }
 
-.no-tasks-message h1 {
-  font-size: 48px; /* Large font size for the heading */
-  margin: 0; /* Remove default margin */
+.task-grid h1 {
+  font-size: 48px; 
+  margin: 0; 
 }
 
-.no-tasks-message p {
-  font-size: 24px; /* Medium font size for the paragraph */
-  margin-top: 10px; /* Space between heading and paragraph */
-}

@@ -35,17 +35,21 @@
 
 .priority-high {
     background-color: red;
+    color: white !important; 
 }
 
 
 .priority-medium {
     background-color: yellow;
+    color: black !important;
 }
 
 
 .priority-low {
     background-color: green;
+    color: white !important;
 }
+
 
 
 .task-card h3 {
@@ -77,7 +81,6 @@
     color: #FFF;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #28a745;
     font-weight: bold;
 }
 

@@ -46,16 +46,19 @@
 
 .priority-high {
     background-color: red;
+    color: white; 
 }
 
 
 .priority-medium {
     background-color: yellow;
+    color: black;
 }
 
 
 .priority-low {
     background-color: green;
+    color: white;
 }
 
 
@@ -94,7 +97,7 @@
     color: #FFF;
     padding: 5px 10px;
     border-radius: 5px;
-    background-color: #28a745; 
+
     font-weight: bold;
 }
 
