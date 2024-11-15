@@ -1,10 +1,10 @@
 #  Answers to technical questions.md
 
-1. ## How long did you spend on the coding test? 
+## 1. How long did you spend on the coding test? 
 
     I spent almost a full day writing the test. I concentrated on writing explicit and concise code, therefore, there were debugging activities. There are risks to skip some requirements in such projects, and I need to be sure that the application works as expected. Also, it should meet the project requirements completely.
 
-2. ## What was the most useful feature that was added to the latest version of your chosen language? Please include a snippet of code that shows how you've used it
+## 2. What was the most useful feature that was added to the latest version of your chosen language? Please include a snippet of code that shows how you've used it
 
     Since I utilized React for the GoalGrid project, there exists a feature called React Hooks. They were introduced in React 16.8, allowing you to use state and other React features without possessing the class.
 
@@ -44,7 +44,7 @@
 
     ```
     
-3. ## How would you track down a performance issue in production? Have you ever had to do this?
+## 3. How would you track down a performance issue in production? Have you ever had to do this?
 
     While it has not been possible for me to yet track down a performance issue in a production environment, I hold a lucid notion of the standard approaches on how diagnosis and resolution of such issues are undertaken.
 
@@ -61,7 +61,7 @@
     By running profiling tools to analyze the performance of the various components inside an application, I see that this important step would help in fixing the problems in the code, such as the use of inefficient algorithms or excessive rendering within a front-end application..
 
 
-4. ## If you had more time, what additional features or improvements would you consider adding to the task management application?
+## 4.  If you had more time, what additional features or improvements would you consider adding to the task management application?
 
     If time allowed, I would consider adding the following features and improvements to the GoalGrid task management application:
 
