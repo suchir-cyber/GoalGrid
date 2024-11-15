@@ -68,6 +68,9 @@ function CreateTask({ addTask }) {
                         onChange={handleChange}
                         required
                     />
+                    <small style={{ color: 'red', fontSize: '12px' }}>
+                        Due time should be entered in 24-hour format
+                    </small>
                 </label>
                 <label>
                     Priority Level
